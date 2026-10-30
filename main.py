@@ -2,6 +2,7 @@ import argparse
 import logging
 import requests
 import pandas as pd
+import sys
 from urllib.parse import urlparse
 
 # Configure logging
@@ -34,9 +35,23 @@ def validate_url(url):
     """
     try:
         result = urlparse(url)
-        return all([result.scheme, result.netloc])
-    except:
+        # The scheme whitelist matters: urlparse alone also passes ftp or
+        # file URLs, which the requests call below is not meant to fetch.
+        return result.scheme in ("http", "https") and bool(result.netloc)
+    except Exception:
         return False
+
+
+def _get_header(headers, name):
+    # analyze_headers returns dict(response.headers), and the plain dict
+    # loses the case-insensitive lookup the requests object had. A server
+    # answering with a lower case header name would otherwise be reported
+    # as missing a header it did send.
+    lowered = name.lower()
+    for key, value in headers.items():
+        if key.lower() == lowered:
+            return value
+    return None
 
 
 def analyze_headers(url, user_agent='HTTPHeaderAnalyzer/1.0', timeout=10, insecure=False):
@@ -78,7 +93,7 @@ def assess_security_headers(headers):
     assessment = {}
 
     # Strict-Transport-Security (HSTS)
-    hsts = headers.get('Strict-Transport-Security')
+    hsts = _get_header(headers, 'Strict-Transport-Security')
     if hsts:
         assessment['HSTS'] = 'Present'
         if 'max-age' not in hsts:
@@ -99,7 +114,7 @@ def assess_security_headers(headers):
         assessment['HSTS'] = 'Missing'
 
     # Content-Security-Policy (CSP)
-    csp = headers.get('Content-Security-Policy')
+    csp = _get_header(headers, 'Content-Security-Policy')
     if csp:
         assessment['CSP'] = 'Present'
         if 'default-src' not in csp:
@@ -110,14 +125,14 @@ def assess_security_headers(headers):
         assessment['CSP'] = 'Missing'
 
     # X-Frame-Options
-    xfo = headers.get('X-Frame-Options')
+    xfo = _get_header(headers, 'X-Frame-Options')
     if xfo:
         assessment['XFO'] = 'Present'
     else:
         assessment['XFO'] = 'Missing'
 
     # X-Content-Type-Options
-    xcto = headers.get('X-Content-Type-Options')
+    xcto = _get_header(headers, 'X-Content-Type-Options')
     if xcto:
         assessment['XCTO'] = 'Present'
         if xcto.lower() == 'nosniff':
@@ -128,14 +143,14 @@ def assess_security_headers(headers):
         assessment['XCTO'] = 'Missing'
 
     # Referrer-Policy
-    rp = headers.get('Referrer-Policy')
+    rp = _get_header(headers, 'Referrer-Policy')
     if rp:
         assessment['Referrer-Policy'] = 'Present'
     else:
         assessment['Referrer-Policy'] = 'Missing'
 
     # Permissions-Policy (formerly Feature-Policy)
-    pp = headers.get('Permissions-Policy') or headers.get('Feature-Policy')  # Check both
+    pp = _get_header(headers, 'Permissions-Policy') or _get_header(headers, 'Feature-Policy')  # Check both
     if pp:
         assessment['Permissions-Policy'] = 'Present'
     else:
@@ -153,7 +168,7 @@ def analyze_server_version(headers):
     Returns:
         str: A string describing the server version.
     """
-    server = headers.get('Server')
+    server = _get_header(headers, 'Server')
     if server:
         return f"Server: {server}"
     else:
@@ -169,10 +184,14 @@ def analyze_cookies(headers):
     Returns:
         list: A list of strings describing the cookie security status.
     """
-    cookies = headers.get('Set-Cookie')
+    cookies = _get_header(headers, 'Set-Cookie')
     cookie_analysis = []
 
     if cookies:
+        # Splitting a combined Set-Cookie value on ', ' is approximate: an
+        # Expires date contains that same comma and space, so one cookie can
+        # be read as two. The flag checks below still land on the right
+        # pieces for the common shapes, but treat the split as a heuristic.
         for cookie in cookies.split(', '):  # Handle multiple cookies in one header
             cookie = cookie.strip()
             if 'HttpOnly' not in cookie:
@@ -194,13 +213,13 @@ def main():
     if not validate_url(args.url):
         logging.error("Invalid URL provided.")
         print("Error: Invalid URL provided.")
-        return
+        sys.exit(1)
 
     headers = analyze_headers(args.url, args.user_agent, args.timeout, args.insecure)
 
     if headers is None:
         print("Failed to retrieve headers.")
-        return
+        sys.exit(1)
 
     security_assessment = assess_security_headers(headers)
     server_info = analyze_server_version(headers)
@@ -221,15 +240,9 @@ def main():
         except Exception as e:
             logging.error(f"Error writing to file: {e}")
             print(f"Error writing to file: {e}")
+            sys.exit(1)
     else:
         print(df.to_string())
 
 if __name__ == "__main__":
     main()
-
-# Usage Examples:
-# python main.py https://example.com
-# python main.py https://example.com --output results.csv
-# python main.py https://example.com --user-agent "MyCustomAgent"
-# python main.py https://example.com --timeout 5
-# python main.py https://insecure-website.com --insecure
