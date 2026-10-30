@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # analyze-http-header-analyzer
 Analyzes HTTP headers from a URL or captured traffic, identifying potential security vulnerabilities or misconfigurations such as missing security headers, insecure cookies, or outdated server versions. - Focused on Data analysis and reporting
 
