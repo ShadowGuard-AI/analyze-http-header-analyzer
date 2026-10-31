@@ -1,7 +1,7 @@
 ![Banner](banner.png)
 
 # analyze-http-header-analyzer
-Analyzes HTTP headers from a URL or captured traffic, identifying potential security vulnerabilities or misconfigurations such as missing security headers, insecure cookies, or outdated server versions. - Focused on Data analysis and reporting
+Analyzes HTTP headers fetched from a live URL, identifying potential security vulnerabilities or misconfigurations such as missing security headers or insecure cookies, and reports the server version string from the Server header. - Focused on Data analysis and reporting
 
 ## Install
 `git clone https://github.com/ShadowGuardAI/analyze-http-header-analyzer`

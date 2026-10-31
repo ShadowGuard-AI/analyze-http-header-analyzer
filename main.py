@@ -160,7 +160,7 @@ def assess_security_headers(headers):
 
 def analyze_server_version(headers):
     """
-    Analyzes the server version to identify outdated or vulnerable versions.
+    Reports the server version string from the Server header, if one was sent.
 
     Args:
         headers (dict): A dictionary containing the HTTP headers.
