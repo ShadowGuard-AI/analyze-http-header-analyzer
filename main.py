@@ -70,6 +70,13 @@ def analyze_headers(url, user_agent='HTTPHeaderAnalyzer/1.0', timeout=10, insecu
     try:
         headers = {'User-Agent': user_agent}
         logging.info(f"Sending request to {url} with User-Agent: {user_agent}, timeout: {timeout}, verify: {not insecure}")
+        # Two things about this call shape the whole report. Requests
+        # follows redirects, so the headers returned are the final
+        # response's only; a redirecting first hop and its headers are
+        # never assessed. And raise_for_status below means a site
+        # answering 404 or 500 is reported as a retrieval failure with
+        # no assessment at all, even though it sent headers worth
+        # judging. A GET also downloads the body I never look at.
         response = requests.get(url, headers=headers, timeout=timeout, verify=not insecure)
         response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
         return dict(response.headers)
@@ -93,6 +100,13 @@ def assess_security_headers(headers):
     assessment = {}
 
     # Strict-Transport-Security (HSTS)
+    # The directive checks here and for CSP are substring searches,
+    # case sensitive. A header sending MAX-AGE in capitals, which
+    # browsers accept, is reported as missing the directive, and the
+    # word appearing inside some other value counts as present. The
+    # value itself is never parsed or checked for sanity anywhere in
+    # this assessment: X-Frame-Options with a nonsense value is simply
+    # Present, same as DENY.
     hsts = _get_header(headers, 'Strict-Transport-Security')
     if hsts:
         assessment['HSTS'] = 'Present'
