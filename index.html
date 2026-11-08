@@ -3,84 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>analyze-http-header-analyzer: The Border Crossing Stamp Collection</title>
-<meta name="description" content="analyze-http-header-analyzer analyzes HTTP headers fetched from a live URL, picking out potential security vulnerabilities or misconfigurations, and reports the server version string from the Server header.">
+<title>analyze-http-header-analyzer: The Franking Room</title>
 <style>
-@font-face{font-family:'Bitcount Prop Single Ink';src:url('fonts/BitcountPropSingleInk.ttf') format('truetype');}
-@font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf') format('truetype');}
-:root{--night:#122040;--maroon:#7a1e2c;--brass:#b08d3e;--cream:#f2e8cd}
-*{box-sizing:border-box}body{margin:0;background:var(--night);color:var(--cream);font-family:'Archivo',sans-serif;line-height:1.65}
-h1,h2{font-family:'Bitcount Prop Single Ink',monospace;color:var(--night)}
-.hero{min-height:100vh;display:flex;flex-direction:column}
-.hero img.intro{width:100%;height:52vh;object-fit:cover;display:block}
-.hero .plate{background:var(--cream);color:var(--night);padding:1.2rem 6vw 1.6rem}
-.hero .plate h1{margin:.4rem 0;font-size:2rem}
-.logo{width:132px}
-main{padding:0 6vw 3rem;max-width:1080px;margin:0 auto}
-nav{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0;align-items:center}
-.stampbtn{display:inline-flex;align-items:center;justify-content:center;width:118px;height:118px;border-radius:50%;background:var(--cream);color:var(--night);border:3px solid var(--brass);outline:6px solid var(--maroon);font-family:'Bitcount Prop Single Ink',monospace;font-size:.82rem;text-align:center;text-decoration:none;padding:.8rem;transition:transform .12s,background .12s}
-.stampbtn:hover{box-shadow:5px 4px 0 rgba(122,30,44,.45)}
-.stampbtn:active{background:#e3d5ae;transform:translateY(3px)}
-.stampbtn:focus-visible{box-shadow:0 0 0 4px var(--night),0 0 0 8px var(--brass)}
-.leaf{background:var(--cream);color:var(--night);border-left:6px dashed var(--brass);padding:.4rem 1.4rem 1.2rem 1.6rem;margin:1.6rem 0;position:relative;overflow:hidden}
-.leaf:after{content:'';position:absolute;right:-26px;bottom:-26px;width:110px;height:110px;border-radius:50%;border:7px solid rgba(122,30,44,.16)}
-.leaf h2{border-bottom:2px solid var(--brass);padding-bottom:.4rem}
-.leaf pre{background:var(--night);color:var(--cream);padding:1rem;overflow-x:auto}
-.field{border:3px solid var(--maroon);border-radius:50%/12px;padding:.7rem 1.1rem;margin:.8rem 0;background:#efe4c4}
-.field.open{border-right-color:transparent}
-a{color:#e9cf8e}a:before{content:'';display:inline-block;width:11px;height:11px;border-radius:50%;border:3px solid var(--brass);margin-right:.5em;vertical-align:-1px}
-a:hover:before{background:var(--maroon)}
-.stampbtn:before,nav a:before{content:none}
-.leaf a{color:var(--maroon)}
-.rope{margin:2.2rem 0;border-top:4px solid var(--brass);position:relative;height:22px}
-.rope:after{content:'';position:absolute;left:4%;right:4%;top:5px;height:20px;border-bottom:5px solid var(--maroon);border-radius:50%}
-footer{padding:1rem 6vw 2.4rem;max-width:1080px;margin:0 auto}
+@font-face { font-family: 'Quantico'; src: url('fonts/Quantico-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Quantico'; src: url('fonts/Quantico-700.woff2') format('woff2'); font-weight: 700; }
+@font-face { font-family: 'Inter'; src: url('fonts/Inter-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Inter'; src: url('fonts/Inter-700.woff2') format('woff2'); font-weight: 700; }
+:root { --enamel: #4a4d52; --cream: #f3ecdc; --violet: #5b3a8e; --red: #b3342a; --paper: #f6f2e9; --ink: #26262a; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; }
+header.top { display: flex; justify-content: space-between; align-items: center; padding: 16px 28px; background: var(--enamel); color: var(--cream); border-bottom: 5px solid var(--red); }
+.wordmark { font-family: 'Quantico', sans-serif; font-weight: 700; letter-spacing: .04em; }
+.stamp { color: #e8b7b0; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; }
+.hero { text-align: center; padding: 50px 22px 8px; }
+.hero img.logo { width: 180px; height: auto; border: 4px solid var(--enamel); border-radius: 6px; }
+h1 { font-family: 'Quantico', sans-serif; font-weight: 700; font-size: 2.5rem; margin: 18px 0 6px; color: var(--enamel); }
+h2 { font-family: 'Quantico', sans-serif; font-weight: 700; color: var(--enamel); border-bottom: 3px solid #d8d0ba; padding-bottom: 5px; margin-top: 38px; }
+.tag { max-width: 43rem; margin: 0 auto; }
+.buttons { margin: 22px 0 6px; }
+.buttons a { display: inline-block; margin: 4px; padding: 11px 22px; background: var(--violet); color: #fff; font-weight: 700; text-decoration: none; border-radius: 4px; }
+.buttons a.alt { background: transparent; color: var(--enamel); border: 2px solid var(--enamel); }
+figure.wide { max-width: 1020px; margin: 24px auto; padding: 0 18px; }
+figure.wide img { width: 100%; height: auto; display: block; border: 1px solid #d8d0ba; }
+figcaption { color: #6a675c; font-size: .9rem; padding-top: 8px; text-align: center; }
+.strip { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; padding: 20px 18px; }
+.strip div { background: #fff; border: 1px solid #d8d0ba; border-top: 4px solid var(--red); padding: 13px 18px; min-width: 180px; text-align: center; }
+.strip b { display: block; font-family: 'Quantico', sans-serif; font-weight: 700; color: var(--enamel); font-size: 1.05rem; }
+main { max-width: 880px; margin: 0 auto; padding: 8px 22px 30px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #d8d0ba; padding: 8px 12px; text-align: left; vertical-align: top; }
+th { background: var(--enamel); color: var(--cream); }
+code { background: #e7e0cc; padding: 1px 6px; border-radius: 3px; }
+.hold { border-left: 5px solid var(--red); background: #f3e3dd; padding: 13px 18px; }
+footer { text-align: center; padding: 24px 18px 32px; color: #6a675c; font-size: .9rem; border-top: 5px solid var(--red); margin-top: 28px; }
 </style>
 </head>
 <body>
-<header class="hero">
-<img class="intro" src="assets/intro-banner.png" alt="Border office counter at night: ink pad, brass clip, passport cover and open passport as soft rings of old ink, a stamp resting on its side, and a sleeper train dissolving into the dark, no text">
-<div class="plate">
-<img class="logo" src="assets/logo.png" alt="Round border entry stamp in sleeper maroon with a brass handle, a small open grille at its centre and one darker double struck segment on its ring">
-<h1>analyze-http-header-analyzer</h1>
-<p>The counter run of a border office, read left to right the way a passport is examined. Each topic occupies its own page of an open passport spread.</p>
-<nav>
-<a class="stampbtn" href="#examined">What gets examined</a>
-<a class="stampbtn" href="#admission">Admission to the counter</a>
-<a class="stampbtn" href="#controls">The five controls</a>
-<a class="stampbtn" href="#closing">The closing entry</a>
-</nav>
+<header class="top"><span class="wordmark">analyze-http-header-analyzer</span><span class="stamp">Read the head first</span></header>
+<section class="hero">
+<img class="logo" src="assets/logo.png" alt="Grey enamel franking machine photographed from the front on a post room bench, badged FP-300, one cream envelope half fed through its slot carrying a blurred violet ink blot and a round red postmark ring beside it">
+<h1>The Franking Room</h1>
+<p class="tag">Analyzes HTTP headers fetched from a live URL, identifying potential security vulnerabilities or misconfigurations such as missing security headers or insecure cookies, and reports the server version string from the Server header. The franking machine reads the markings on the outside of every envelope before anything inside it is trusted; this tool reads the head of the response the same way.</p>
+<p class="buttons"><a href="https://github.com/ShadowGuard-AI/analyze-http-header-analyzer">View on GitHub</a> <a class="alt" href="https://github.com/ShadowGuard-AI/analyze-http-header-analyzer#readme">Read the README</a></p>
+</section>
+<figure class="wide"><img src="assets/intro-banner.png" alt="One cream envelope close up sliding out of the franking machine, its violet ink blot and red postmark ring at its head, the next blank envelope waiting at the slot below and stacks of envelopes to either side"><figcaption>One envelope out of the machine, its blot still fresh and the red ring crisp beside it.</figcaption></figure>
+<div class="strip">
+<div><b>Live URL</b>headers fetched and read</div>
+<div><b>Missing headers</b>and insecure cookies flagged</div>
+<div><b>Server</b>version string reported</div>
+<div><b>10 seconds</b>the stated timeout default</div>
 </div>
-<img src="assets/banner.png" alt="Night border crossing by rail: an open passport and round stamp on the counter in the foreground, a floodlit sleeper train behind, and a departure board carrying the project name as the next service called" style="width:100%;display:block">
-</header>
 <main>
-<section class="leaf" id="examined"><h2>First leaf: what gets examined</h2>
-<p>analyze-http-header-analyzer analyzes HTTP headers fetched from a live URL, picking out potential security vulnerabilities or misconfigurations such as missing security headers or insecure cookies, and it reports the server version string taken from the Server header.</p>
-<p>The README attaches one line to that description: focused on data analysis and reporting. This leaf invents no checklist beyond the items named above, because the source names no others.</p>
-</section>
-<div class="rope"></div>
-<section class="leaf" id="admission"><h2>Second leaf: admission to the counter</h2>
-<pre>git clone https://github.com/ShadowGuardAI/analyze-http-header-analyzer
-./analyze-http-header-analyzer [params]</pre>
-<p>The first line is the one installation instruction, shown exactly as written, with its unhyphenated account name left visible. The usage line follows it.</p>
-<p>Neither line ever says where the live URL enters: no address argument is named in the usage line or in the parameter list, although fetching from a live URL is the tool's stated job. That omission is stated here, at the point of use.</p>
-</section>
-<div class="rope"></div>
-<section class="leaf" id="controls"><h2>Third leaf: the five controls, each in its own stamp field</h2>
-<div class="field"><p><code>-h</code> shows a help message and exits.</p></div>
-<div class="field"><p><code>--user-agent</code> sets a custom User-Agent string. Default: HTTPHeaderAnalyzer/1.0</p></div>
-<div class="field"><p><code>--timeout</code> sets the timeout for the HTTP request in seconds. Default: 10</p></div>
-<div class="field open"><p><code>--output</code>: No description provided. This field is stamped and left unfilled.</p></div>
-<div class="field open"><p><code>--insecure</code>: No description provided. This field is stamped and left unfilled.</p></div>
-<p>Guessing what the two unfilled fields do may be natural, but no guess is printed here, because the source supports neither.</p>
-</section>
-<div class="rope"></div>
-<section class="leaf" id="closing"><h2>Last leaf: the closing entry</h2>
-<p>The outcome the README actually promises is a reading of the headers, the problems among the kinds named on the first leaf, and the server version string. No sample run, no example header set, no output format, and no severity wording appear in the source, and this leaf says so plainly.</p>
-<p>Copyright (c) ShadowGuardAI, with no licence named beside it, reproduced as the closing line of the README stands.</p>
-<p><a href="https://github.com/ShadowGuard-AI/analyze-http-header-analyzer">The repository on GitHub</a></p>
-</section>
+<h2>What it does</h2>
+<p>The tool fetches the headers of a live URL and reads them for what is missing or unsafe: security headers that are not there, cookies set without protection, and the version string the server announces about itself. Usage, as the README gives it: <code>./analyze-http-header-analyzer [params]</code>. Its requirements are <code>pandas&gt;=2.1.0</code> and <code>requests&gt;=2.31.0</code>.</p>
+<figure class="wide" style="padding:0;margin:18px 0;"><img src="assets/banner.png" alt="Post room bench with a grey franking machine at its centre, a neat stack of unmarked cream envelopes on one side and a growing stack of franked envelopes on the other, each franked envelope carrying a blurred violet ink blot and a red postmark ring at its head"></figure>
+<h2>Parameters</h2>
+<table>
+<tr><th>Parameter</th><th>What the README says</th></tr>
+<tr><td><code>-h</code></td><td>Show help message and exit</td></tr>
+<tr><td><code>--output</code></td><td>No description provided</td></tr>
+<tr><td><code>--user-agent</code></td><td>Custom User-Agent string to use. Default: HTTPHeaderAnalyzer/1.0</td></tr>
+<tr><td><code>--timeout</code></td><td>Timeout for the HTTP request in seconds. Default: 10</td></tr>
+<tr><td><code>--insecure</code></td><td>No description provided</td></tr>
+</table>
+<h2>Stated limits</h2>
+<div class="hold"><p>Two stamp fields are left unfilled in the source, and they are left unfilled here: <code>--output</code> and <code>--insecure</code> are each listed with no description provided. The usage line names no URL argument, and no parameter supplies one, although the tool is described as fetching headers from a live URL; how the address reaches the tool is nowhere stated. The licence line at the close of the README is a copyright line only, with no licence named.</p></div>
 </main>
-<footer><p>Theme: the border crossing stamp collection. Type: Bitcount Prop Single Ink for headings, Archivo for reading, both SIL Open Font License 1.1. No lettering reference was recorded for this theme, so none is embedded.</p></footer>
+<footer>analyze-http-header-analyzer, franked and read. Fonts: Quantico and Inter, self-hosted under the SIL Open Font License.</footer>
 </body>
 </html>
