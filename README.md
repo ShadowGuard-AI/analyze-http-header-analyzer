@@ -1,11 +1,12 @@
-![Border office counter at night with an ink pad, brass clip, open passport as soft rings of old ink, a stamp on its side, and a sleeper train in the dark, no text](intro-banner.png)
+![One cream envelope close up sliding out of the franking machine, its violet ink blot and red postmark ring at its head, the next blank envelope waiting at the slot below and stacks of envelopes to either side](intro-banner.png)
 
 # analyze-http-header-analyzer
 
-![Night border crossing by rail with an open passport and round stamp on the counter and a departure board carrying the project name](banner.png)
+![Post room bench with a grey franking machine at its centre, a neat stack of unmarked cream envelopes on one side and a growing stack of franked envelopes on the other, each franked envelope carrying a blurred violet ink blot and a red postmark ring at its head](banner.png)
+
+<p align="center"><img src="logo.png" alt="Grey enamel franking machine photographed from the front on a post room bench, badged FP-300, one cream envelope half fed through its slot carrying a blurred violet ink blot and a round red postmark ring beside it" width="180"></p>
 
 ![Border counter scene: a bar of light travels across the open passport and pauses on each ring of old ink while carriage windows flicker and a timetable slip slides](scene.svg)
-
 
 # analyze-http-header-analyzer
 Analyzes HTTP headers fetched from a live URL, identifying potential security vulnerabilities or misconfigurations such as missing security headers or insecure cookies, and reports the server version string from the Server header. - Focused on Data analysis and reporting
