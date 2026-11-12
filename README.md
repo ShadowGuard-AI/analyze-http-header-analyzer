@@ -7,9 +7,7 @@
 <p align="center"><img src="logo.png" alt="Grey enamel franking machine photographed from the front on a post room bench, badged FP-300, one cream envelope half fed through its slot carrying a blurred violet ink blot and a round red postmark ring beside it" width="180"></p>
 
 ![Border counter scene: a bar of light travels across the open passport and pauses on each ring of old ink while carriage windows flicker and a timetable slip slides](scene.svg)
-
-# analyze-http-header-analyzer
-Analyzes HTTP headers fetched from a live URL, identifying potential security vulnerabilities or misconfigurations such as missing security headers or insecure cookies, and reports the server version string from the Server header. - Focused on Data analysis and reporting
+Analyzes HTTP headers fetched from a live URL, identifying potential security vulnerabilities or misconfigurations such as missing security headers or insecure cookies, and reports the server version string from the Server header, focusing on automated data analysis and reporting
 
 ## Install
 `git clone https://github.com/ShadowGuardAI/analyze-http-header-analyzer`
